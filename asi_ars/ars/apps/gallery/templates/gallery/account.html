@@ -1,0 +1,60 @@
+{% extends "gallery/header.html" %}
+
+
+{% block content %}
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+.button {
+  background-color: red;
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 30px;
+  margin: 4px 2px;
+  cursor: pointer;
+}
+</style>
+</head>
+<body>
+<center>
+    <br>
+
+
+
+
+<div class="container">
+  <div class="row well">
+  <div class="span12" style="text-align: center"><br/>
+    <img src="{% static 'gallery/img/login.png' %}" class="responsive-img" style='max-height:50px;' alt="face" ><h2>You are an :</h2>
+    <hr>
+    <br>
+    <form class="form-horizontal" method="POST">
+      <fieldset>
+        <div class="control-group">
+          <a href="/accounts/login/?next=/update/" class="button">Admin</a>
+          <a href="/accounts/login/" class="button">Employee</a>
+        </div>
+        <div class="control-group"> <br/>
+          <!-- Button -->
+        </div>
+      </fieldset>
+    </form>
+  </div>
+</div>
+</div>
+ 
+
+
+</center>
+
+</body>
+
+</html>
+
+{% endblock %}

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>IMG PROCESSING</title>
+	{% load staticfiles %}
+  <meta charset="utf-8" />
+  <meta name="viewport" content = "width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="{% static 'gallery/css/bootstrap.min.css' %}" type = "text/css"/>
+  <link rel="stylesheet" href="{% static 'gallery/css/default.css' %}">
+  <script src="{% static 'gallery/js/html2canvas.min.js' %}"></script>
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js"
+          integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+          crossorigin="anonymous"></script>
+  <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+  <script type="text/javascript" src="{% static 'gallery/js/bootstrap.js' %}"></script>
+	<style></style>
+</head>
+  <div class="main">
+        <div class="header">
+           <img src="{% static 'gallery/img/logo.png' %}" class="responsive-img" style='max-height:150px;' alt="face">
+              <div class="header-right">
+                 <a href='/'> ARS </a>
+                 {% if not request.user.is_authenticated %}  
+                    <a href="/accounts/login/?next=/update/">Login</a>    
+                 {% endif %}  
+                 {% if request.user.is_authenticated %}
+
+                    <a href='/update/'>Admin <span class="badge badge-light">
+                       {{ data.object_list.count }} 
+                    </span> </a>        
+                    <a href='/train/'>Train </a>  
+                    <a href='/timelog/'>Time Log </a>  
+                    <a href="/logout/">Logout</a>
+            
+                 {% endif %}              
+              </div>
+       </div>
+<body >
+	  {% block content %} {% endblock %}
+  </div>
+</body>
+<footer id="footer" class="footer ">
+    <div class="footer-copyright text-center py-3"> <h6> © 2018 Copyright. Alliance Software Inc.</h6> </div>
+</footer>
+</html>

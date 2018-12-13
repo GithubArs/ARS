@@ -1,0 +1,31 @@
+{% extends "gallery/header.html" %}
+
+{% block content %}
+{% load staticfiles %}
+  <link rel="stylesheet" href="{% static 'gallery/css/index.css' %}">
+<div class="main">
+<h1>Images</h1>
+    {% for image in data.object_list %}
+    <div class="responsive">
+      <div class="gallery">
+          <img src="{% static 'temp/'%}{{image.name}}" class="center" alt=" " width="50px" height="50px">
+          {% if image.clase != 'null' %}
+          <h4 class="text-center"> Currently Identified as: <b><i> {{image.clase}} </i></b></h4>
+          <h4  class="text-center"> Percentage: <b><i> {{image.score}}% </i></b></h4>
+          {% else %}
+          <h4 class="text-center"> Currently Identified as: <b> - </b></h4>
+          <h4  class="text-center"> Percentage: <b> - </b></h4>    
+          {% endif%}
+        
+        <center>
+            <a href="{% url 'gallery:image_delete' image.pk %}" class='btn btn-danger'>Delete</a>
+            <br/><br/>
+            <h4> Correct this image as: <a href="{% url 'gallery:move' image.pk %}" class='btn btn-primary'> {{image.suggested }} </a> </h4>
+            <br/>
+        </center>
+      </div>
+    </div>
+    {% endfor %}
+    <div class="clearfix"></div>
+</div>
+{% endblock %}

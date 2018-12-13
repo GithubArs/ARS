@@ -1,0 +1,27 @@
+{% extends "gallery/header.html" %}
+
+{% block title %}Login{% endblock %}
+
+{% block content %}
+<br/><br/>
+<div class="container">
+    <div class="row well">
+		<div class="span12" style="text-align: center"><br/>
+			<form class="form-horizontal" method="POST">
+			  <fieldset>
+			    <div class="control-group">
+			      	{% csrf_token %}
+  					{{ form.as_p }}
+			    </div>
+			    <div class="control-group"> <br/>
+			      <!-- Button -->
+			      <div class="controls">
+			        <button class="btn btn-lg btn-primary" type="submit"> Sign In </button>
+			      </div>
+			    </div>
+			  </fieldset>
+			</form>
+		</div>
+	</div>
+</div>
+{% endblock %}

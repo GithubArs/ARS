@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>IMG PROCESSING</title>
+  {% load staticfiles %}
+  
+
+  
+  <meta charset="utf-8" />
+  <meta name="viewport" content = "width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="{% static 'gallery/css/bootstrap.min.css' %}" type = "text/css"/>
+  <link rel="stylesheet" href="{% static 'gallery/css/default.css' %}">
+  <script src="{% static 'gallery/js/html2canvas.min.js' %}"></script>
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js"
+          integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+          crossorigin="anonymous"></script>
+  <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+  <script type="text/javascript" src="{% static 'gallery/js/bootstrap.js' %}"></script>
+	<style></style>
+</head>
+  <div class="main">
+        <div class="header">
+           <img src="{% static 'gallery/img/logo.png' %}" class="responsive-img" style='max-height:150px;' alt="face">
+              <div class="header-right">
+                 
+                 {% if not request.user.is_authenticated %}  
+                    <a href="/accounts/login/">Login</a>    
+                 {% endif %}  
+                 {% if request.user.is_authenticated %} 
+                     
+                    <a href="/logout/">Logout</a>
+                 {% endif %}              
+              </div>
+       </div>
+<body >
+  {% block content %}
+  {% load staticfiles %}
+  
+  <!DOCTYPE html>
+  <html>
+  <head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+  * {
+    box-sizing: border-box;
+  }
+  
+  hr { 
+      display: block;
+      margin-top: 0.5em;
+      margin-bottom: 0.5em;
+      margin-left: auto;
+      margin-right: auto;
+      border-style: inset;
+      border-width: 1px;
+  } 
+  
+  .button {
+    background-color: #4CAF50; /* Green */
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+  }
+  
+  
+  #myInput {
+    background-position: 10px 10px;
+    background-repeat: no-repeat;
+    width: 30%;
+    font-size: 16px;
+    padding: 12px 20px 12px 40px;
+    border: 1px solid #ddd;
+    margin-bottom: 12px;
+  }
+  
+  #testTable {
+    border-collapse: collapse;
+    width: 100%;
+    border: 1px solid #ddd;
+    font-size: 18px;
+  }
+  
+  #testTable th, #testTable td {
+    text-align: left;
+    padding: 12px;
+  }
+  
+  #testTable tr {
+    border-bottom: 1px solid #ddd;
+  }
+  
+  #testTable tr.header, #testTable tr:hover {
+    background-color: #f1f1f1;
+  }
+  </style>
+  </head>
+  <body>
+
+    
+<h1>Welcome : {{user.username}}</h1>
+  
+  <br>
+
+    <div class="container">
+  <div class="row well">
+  <div class="span12" style="text-align: center"><br/>
+        <div class="control-group">
+        
+  <img src="{% static 'gallery/img/timelog.png' %}" class="responsive-img" style='max-height:50px;' alt="face"
+  <h2>My Time Logs</h2>
+  </br>
+  <hr>
+  <br>
+  <button class="button" id="btnExport" style="float: right" onclick="javascript:xport.toCSV('testTable');"> Download</button> 
+  
+  <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for names.." title="Type in a name">
+  <table id="testTable" summary="Code page support in different versions of MS Windows." rules="groups" frame="hsides" border="2" class="table table-striped">
+    <tr class="header">
+      <th>Name</th>
+      <th>Day</th>
+      <th>Date</th>
+      <th>Time In</th>
+      <th>Time Out</th>
+    </tr>
+    <tr>
+      {% for time in time %}
+      <td>{{time.name}}</td>
+      <td>{{time.day}}</td>
+      <td>{{time.date}}</td>
+      <td>{{time.Timein}}</td>
+      <td>{{time.Timeout}}</td>
+    </tr>
+    {% endfor %}
+    
+  </table>
+
+
+
+
+
+          
+        </div>
+        <div class="control-group"> <br/>
+      
+        </div>
+ 
+    </form>
+  </div>
+</div>
+</div>
+
+
+  <script>
+  function myFunction() {
+    var input, filter, table, tr, td, i, txtValue;
+    input = document.getElementById("myInput");
+    filter = input.value.toUpperCase();
+    table = document.getElementById("testTable");
+    tr = table.getElementsByTagName("tr");
+    for (i = 0; i < tr.length; i++) {
+      td = tr[i].getElementsByTagName("td")[0];
+      if (td) {
+        txtValue = td.textContent || td.innerText;
+        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+          tr[i].style.display = "";
+        } else {
+          tr[i].style.display = "none";
+        }
+      }       
+    }
+  }
+  </script>
+  
+  <script>
+  
+      var xport = {
+        _fallbacktoCSV: true,  
+        toXLS: function(tableId, filename) {   
+          this._filename = (typeof filename == 'undefined') ? tableId : filename;
+          
+          //var ieVersion = this._getMsieVersion();
+          //Fallback to CSV for IE & Edge
+          if ((this._getMsieVersion() || this._isFirefox()) && this._fallbacktoCSV) {
+            return this.toCSV(tableId);
+          } else if (this._getMsieVersion() || this._isFirefox()) {
+            alert("Not supported browser");
+          }
+      
+          //Other Browser can download xls
+          var htmltable = document.getElementById(tableId);
+          var html = htmltable.outerHTML;
+      
+          this._downloadAnchor("data:application/vnd.ms-excel" + encodeURIComponent(html), 'xls'); 
+        },
+        toCSV: function(tableId, filename) {
+          this._filename = (typeof filename === 'undefined') ? tableId : filename;
+          // Generate our CSV string from out HTML Table
+          var csv = this._tableToCSV(document.getElementById(tableId));
+          // Create a CSV Blob
+          var blob = new Blob([csv], { type: "text/csv" });
+      
+          // Determine which approach to take for the download
+          if (navigator.msSaveOrOpenBlob) {
+            // Works for Internet Explorer and Microsoft Edge
+            navigator.msSaveOrOpenBlob(blob, this._filename + ".csv");
+          } else {      
+            this._downloadAnchor(URL.createObjectURL(blob), 'csv');      
+          }
+        },
+        _getMsieVersion: function() {
+          var ua = window.navigator.userAgent;
+      
+          var msie = ua.indexOf("MSIE ");
+          if (msie > 0) {
+            // IE 10 or older => return version number
+            return parseInt(ua.substring(msie + 5, ua.indexOf(".", msie)), 10);
+          }
+      
+          var trident = ua.indexOf("Trident/");
+          if (trident > 0) {
+            // IE 11 => return version number
+            var rv = ua.indexOf("rv:");
+            return parseInt(ua.substring(rv + 3, ua.indexOf(".", rv)), 10);
+          }
+      
+          var edge = ua.indexOf("Edge/");
+          if (edge > 0) {
+            // Edge (IE 12+) => return version number
+            return parseInt(ua.substring(edge + 5, ua.indexOf(".", edge)), 10);
+          }
+      
+          // other browser
+          return false;
+        },
+        _isFirefox: function(){
+          if (navigator.userAgent.indexOf("Firefox") > 0) {
+            return 1;
+          }
+          
+          return 0;
+        },
+        _downloadAnchor: function(content, ext) {
+            var anchor = document.createElement("a");
+            anchor.style = "display:none !important";
+            anchor.id = "downloadanchor";
+            document.body.appendChild(anchor);
+      
+            // If the [download] attribute is supported, try to use it
+            
+            if ("download" in anchor) {
+              anchor.download = this._filename + "." + ext;
+            }
+            anchor.href = content;
+            anchor.click();
+            anchor.remove();
+        },
+        _tableToCSV: function(table) {
+          // We'll be co-opting `slice` to create arrays
+          var slice = Array.prototype.slice;
+      
+          return slice
+            .call(table.rows)
+            .map(function(row) {
+              return slice
+                .call(row.cells)
+                .map(function(cell) {
+                  return '"t"'.replace("t", cell.textContent);
+                })
+                .join(",");
+            })
+            .join("\r\n");
+        }
+      };
+      
+      </script>
+      
+  
+  </body>
+  </html>
+  {% endblock %}
+  </div>
+</body>
+<footer id="footer" class="footer ">
+   
+    <div class="footer-copyright text-center py-3"> <h6> © 2018 Copyright. Alliance Software Inc.</h6> </div>
+</footer>
+</html>
